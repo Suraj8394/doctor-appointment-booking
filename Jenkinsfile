@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    sh 'docker-compose build'
+                    bat 'docker-compose build'
                 }
             }
         }
@@ -19,21 +19,24 @@ pipeline {
         stage('Run Containers') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    bat 'docker-compose up -d'
                 }
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Verify Containers') {
             steps {
-                echo '✅ Application is up and running successfully!'
+                script {
+                    bat 'docker ps'
+                    echo '✅ All containers are running successfully!'
+                }
             }
         }
     }
 
     post {
         always {
-            echo '📦 Pipeline completed!'
+            echo '📦 Jenkins pipeline finished successfully on Windows!'
         }
     }
 }
