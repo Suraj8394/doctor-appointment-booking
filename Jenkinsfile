@@ -8,6 +8,14 @@ pipeline {
             }
         }
 
+        stage('Clean Old Containers') {
+            steps {
+                script {
+                    bat 'docker-compose down || exit 0'
+                }
+            }
+        }
+
         stage('Build Docker Images') {
             steps {
                 script {
