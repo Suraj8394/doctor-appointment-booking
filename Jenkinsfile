@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Suraj8394/doctor-appointment-booking.git'
@@ -11,7 +12,12 @@ pipeline {
         stage('Clean Old Containers') {
             steps {
                 script {
-                    bat 'docker-compose down || exit 0'
+                    bat '''
+                    echo Cleaning up old containers...
+                    docker-compose down --remove-orphans || exit 0
+                    docker rm -f admin backend frontend || exit 0
+                    docker system prune -f || exit 0
+                    '''
                 }
             }
         }
@@ -43,6 +49,12 @@ pipeline {
     }
 
     post {
+        success {
+            echo '🎉 Build and containers started successfully!'
+        }
+        failure {
+            echo '❌ Build failed! Please check the Jenkins console output.'
+        }
         always {
             echo '📦 Jenkins pipeline finished successfully on Windows!'
         }

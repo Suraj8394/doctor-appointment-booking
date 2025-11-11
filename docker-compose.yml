@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
-    container_name: backend
+    container_name: backend_${COMPOSE_PROJECT_NAME}
     ports:
       - "5000:5000"
     env_file:
@@ -14,7 +12,7 @@ services:
 
   frontend:
     build: ./frontend
-    container_name: frontend
+    container_name: frontend_${COMPOSE_PROJECT_NAME}
     ports:
       - "3000:3000"
     environment:
@@ -25,7 +23,7 @@ services:
 
   admin:
     build: ./admin
-    container_name: admin
+    container_name: admin_${COMPOSE_PROJECT_NAME}
     ports:
       - "3001:3001"
     environment:
