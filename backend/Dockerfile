@@ -1,4 +1,3 @@
-# Backend Dockerfile
 FROM node:18
 
 WORKDIR /app
@@ -8,5 +7,8 @@ RUN npm install
 
 COPY . .
 
+# copy .env inside image
+COPY .env /app/.env
+
 EXPOSE 5000
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

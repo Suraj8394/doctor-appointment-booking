@@ -1,33 +1,21 @@
 services:
+
   backend:
     build: ./backend
-    container_name: backend_${COMPOSE_PROJECT_NAME}
+    container_name: backend_doctor-appointment
     ports:
       - "5000:5000"
     env_file:
       - ./backend/.env
-    volumes:
-      - ./backend:/app
-    command: npm start
 
   frontend:
     build: ./frontend
-    container_name: frontend_${COMPOSE_PROJECT_NAME}
+    container_name: frontend_doctor-appointment
     ports:
-      - "3000:3000"
-    environment:
-      - VITE_API_BASE_URL=http://localhost:5000
-    volumes:
-      - ./frontend:/app
-    command: npm run dev
+      - "3000:80"
 
   admin:
     build: ./admin
-    container_name: admin_${COMPOSE_PROJECT_NAME}
+    container_name: admin_doctor-appointment
     ports:
-      - "3001:3001"
-    environment:
-      - VITE_API_BASE_URL=http://localhost:5000
-    volumes:
-      - ./admin:/app
-    command: npm run dev
+      - "3001:80"
