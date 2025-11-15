@@ -1,24 +1,30 @@
 services:
 
-
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: doctor-appointment-backend
     container_name: backend_doctor-appointment
     ports:
       - "4000:4000"
     env_file:
       - ./backend/.env
-    command: node server.js
-
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: doctor-appointment-frontend
     container_name: frontend_doctor-appointment
     ports:
       - "3000:80"
 
   admin:
-    build: ./admin
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    image: doctor-appointment-admin
     container_name: admin_doctor-appointment
     ports:
       - "3001:80"
