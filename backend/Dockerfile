@@ -10,5 +10,5 @@ COPY . .
 # copy .env inside image
 COPY .env /app/.env
 
-EXPOSE 5000
+EXPOSE 4000
 CMD ["node", "server.js"]

@@ -4,7 +4,7 @@ services:
     build: ./backend
     container_name: backend_doctor-appointment
     ports:
-      - "5000:5000"
+      - "4000:4000"
     env_file:
       - ./backend/.env
 
