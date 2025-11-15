@@ -2,8 +2,8 @@ FROM node:18
 
 WORKDIR /app
 
-# Copy only backend package files
-COPY package*.json ./
+# Copy ONLY backend package.json
+COPY package.json package-lock.json ./
 
 # Install backend dependencies
 RUN npm install
@@ -11,7 +11,7 @@ RUN npm install
 # Copy backend source code
 COPY . .
 
-# Copy environment file
+# Copy .env file
 COPY .env /app/.env
 
 EXPOSE 4000
