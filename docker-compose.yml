@@ -7,6 +7,9 @@ services:
       - "4000:4000"
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend:/app
+    command: node server.js
 
   frontend:
     build: ./frontend

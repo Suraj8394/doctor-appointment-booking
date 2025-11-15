@@ -13,7 +13,6 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    echo Cleaning up old containers...
                     docker-compose down --remove-orphans || exit 0
                     docker rm -f admin backend frontend || exit 0
                     docker system prune -f || exit 0
@@ -42,7 +41,6 @@ pipeline {
             steps {
                 script {
                     bat 'docker ps'
-                    echo '✅ All containers are running successfully!'
                 }
             }
         }
@@ -54,9 +52,6 @@ pipeline {
         }
         failure {
             echo '❌ Build failed! Please check the Jenkins console output.'
-        }
-        always {
-            echo '📦 Jenkins pipeline finished successfully on Windows!'
         }
     }
 }

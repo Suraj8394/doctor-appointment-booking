@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-# copy .env inside image
+# Copy environment file
 COPY .env /app/.env
 
 EXPOSE 4000
