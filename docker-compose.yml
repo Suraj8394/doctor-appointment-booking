@@ -10,6 +10,7 @@ services:
       - "4000:4000"
     env_file:
       - ./backend/.env
+    restart: always
 
   frontend:
     build:
@@ -19,6 +20,7 @@ services:
     container_name: frontend_doctor-appointment
     ports:
       - "3000:80"
+    restart: always
 
   admin:
     build:
@@ -28,3 +30,4 @@ services:
     container_name: admin_doctor-appointment
     ports:
       - "3001:80"
+    restart: always
