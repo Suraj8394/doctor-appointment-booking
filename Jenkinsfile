@@ -14,7 +14,8 @@ pipeline {
                 '''
             }
         }
-
+//next
+        
         stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/Suraj8394/doctor-appointment-booking.git'
