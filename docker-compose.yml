@@ -3,6 +3,7 @@ version: "3.9"
 services:
 
   backend:
+    container_name: backend_doctor_app
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -12,8 +13,14 @@ services:
     env_file:
       - ./backend/.env
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
+    container_name: frontend_doctor_app
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -23,6 +30,7 @@ services:
     restart: always
 
   admin:
+    container_name: admin_doctor_app
     build:
       context: ./admin
       dockerfile: Dockerfile

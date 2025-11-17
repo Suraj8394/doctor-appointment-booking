@@ -3,43 +3,82 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Check Docker Daemon') {
+            steps {
+                bat '''
+                echo Checking if Docker daemon is running...
+                docker version || (
+                    echo Docker NOT running!
+                    exit 1
+                )
+                '''
+            }
+        }
+
+        stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/Suraj8394/doctor-appointment-booking.git'
             }
         }
 
-        stage('Clean') {
+        stage('Stop Old Containers') {
             steps {
-                bat 'docker-compose down --remove-orphans --volumes || echo skip'
+                bat '''
+                echo ===== Stopping Old Containers =====
+                docker-compose down --remove-orphans --volumes || echo No old containers
+                '''
             }
         }
 
-        stage('Build') {
+        stage('Clean Leftover Containers') {
             steps {
-                bat 'docker-compose build --no-cache'
+                bat '''
+                echo ===== Removing Leftover Containers =====
+                for %%C in (
+                    backend_doctor_app
+                    frontend_doctor_app
+                    admin_doctor_app
+                ) do (
+                    docker rm -f %%C 2>nul || echo Container %%C not found
+                )
+                '''
             }
         }
 
-        stage('Run') {
+        stage('Build Images') {
             steps {
-                bat 'docker-compose up -d --remove-orphans'
+                bat '''
+                echo ===== Building Docker Images =====
+                docker-compose build --no-cache
+                '''
             }
         }
 
-        stage('Verify') {
+        stage('Start Containers') {
             steps {
-                bat 'docker ps -a'
+                bat '''
+                echo ===== Starting Docker Containers =====
+                docker-compose up -d --remove-orphans
+                '''
+            }
+        }
+
+        stage('Verify Running Containers') {
+            steps {
+                bat '''
+                echo ===== Active Containers =====
+                docker ps
+                '''
             }
         }
     }
 
     post {
         success {
-            echo "🎉 Success!"
+            echo "🎉 Successfully Built & Deployed Containers!"
         }
         failure {
-            echo "❌ Failed!"
+            echo "❌ Build Failed — Check Console Output."
         }
     }
 }
