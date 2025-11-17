@@ -8,50 +8,38 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Suraj8394/doctor-appointment-booking.git'
             }
         }
-//next
-        stage('Clean Old Containers') {
+
+        stage('Clean') {
             steps {
-                script {
-                    bat '''
-                    docker-compose down --remove-orphans || exit 0
-                    docker rm -f admin backend frontend || exit 0
-                    docker system prune -f || exit 0
-                    '''
-                }
+                bat 'docker-compose down --remove-orphans --volumes || echo skip'
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Build') {
             steps {
-                script {
-                    bat 'docker-compose build'
-                }
+                bat 'docker-compose build --no-cache'
             }
         }
 
-        stage('Run Containers') {
+        stage('Run') {
             steps {
-                script {
-                    bat 'docker-compose up -d'
-                }
+                bat 'docker-compose up -d --remove-orphans'
             }
         }
 
-        stage('Verify Containers') {
+        stage('Verify') {
             steps {
-                script {
-                    bat 'docker ps'
-                }
+                bat 'docker ps -a'
             }
         }
     }
 
     post {
         success {
-            echo '🎉 Build and containers started successfully!'
+            echo "🎉 Success!"
         }
         failure {
-            echo '❌ Build failed! Please check the Jenkins console output.'
+            echo "❌ Failed!"
         }
     }
 }
