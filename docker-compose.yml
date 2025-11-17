@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     image: doctor-appointment-backend
     ports:
-      - "5000:4000"
+      - "5000:4000"       # backend on 5000
     env_file:
       - ./backend/.env
     restart: always
@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile
     image: doctor-appointment-frontend
     ports:
-      - "3000:80"
+      - "5001:80"         # CHANGED: frontend on 5001
     restart: always
 
   admin:
@@ -36,5 +36,5 @@ services:
       dockerfile: Dockerfile
     image: doctor-appointment-admin
     ports:
-      - "3001:80"
+      - "5002:80"         # CHANGED: admin on 5002
     restart: always
