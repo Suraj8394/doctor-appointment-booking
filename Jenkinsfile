@@ -14,7 +14,7 @@ pipeline {
                 '''
             }
         }
-//next
+//ne
         
         stage('Checkout Code') {
             steps {
